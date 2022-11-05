@@ -19,10 +19,12 @@ pipeline {
             }
       stage('Push the Docker Images') {
          steps {
-		withCredentials([string(credentialsId: 'mydockerhub', variable: 'mydockerhub')]) {
-   			sh "docker login -u mdrajibkhan -p ${mydockerhub}"
+	   withCredentials([string(credentialsId: 'mydockerhub', variable: 'mydockerhub')]) {
+	      sh "docker login -u mdrajibkhan -p ${mydockerhub}"
 		}
-		}
+              sh 'docker push mdrajibkhan/myimage:v1'
+            }
+            }
       stage('Image Pull and deploy the application') {
          steps {
 	   sh 'docker rm web -f'
